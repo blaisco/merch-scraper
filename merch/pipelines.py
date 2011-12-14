@@ -55,7 +55,7 @@ class InventoryPipeline(object):
         
     return item
     
-class HTTPPipeline(object):
+class HTTPPostPipeline(object):
   def __init__(self):
     config = ConfigParser.ConfigParser()
     config.read(CONFIG_FILE)
@@ -67,4 +67,5 @@ class HTTPPipeline(object):
     
     h = Http()
     resp, content = h.request(MERCH_PRODUCT_URL, "POST", urlencode(data))
+    # TODO: Yell loudly if resp["status"] != '200'
     return item

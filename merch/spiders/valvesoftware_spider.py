@@ -14,7 +14,7 @@ class ValvesoftwareSpider(BaseSpider):
   base_url = "http://store.valvesoftware.com/"
   allowed_domains = ["valvesoftware.com"]
   #start_urls = ["http://store.valvesoftware.com/"]
-  start_urls = ["http://store.valvesoftware.com/product.php?i=P2255"]
+  start_urls = ["http://store.valvesoftware.com/product.php?i=P0909"]
   rules = (
     # Extract links matching 'index.php' and follow links from them 
     # (since no callback means follow=True by default).
@@ -34,15 +34,18 @@ class ValvesoftwareSpider(BaseSpider):
     
     item['url'] = response.url
     
+    # Using .encode('utf-8') on certain fields because the text may contain 
+    # non-ascii characters which throws a UnicodeEncodeError exception when 
+    # calling urlencode.
+    
     # Two divs within this div; join with a space
     product_name = hxs.select("//div[@id='product_header_box']//h3/text()").extract()
-    item['name'] = string.capwords(' '.join(product_name))
-
-    item['short_desc'] = None
+    item['name'] = string.capwords(' '.join(product_name)).encode('utf-8')
     
     # Paragraph with text split by <br>'s
     description = hxs.select("//div[@id='product_info']/p/text()").extract()
-    item['description'] = ''.join(description)
+    item['summary'] = description[0].encode('utf-8')
+    item['description'] = ''.join(description).encode('utf-8')
     
     sale_price = None
     price = hxs.select("//div[@class='product_price']/text()").extract()
@@ -74,7 +77,6 @@ class ValvesoftwareSpider(BaseSpider):
         "in_stock": True
       })
       
-    item['features'] = None
     item['image_urls'] = [self.base_url + hxs.select("//div[@id='product_image']/img/@src").extract()[0]]
     
     return item

@@ -8,9 +8,8 @@ from scrapy.item import Item, Field
 class MerchItem(Item):
   url = Field()
   name = Field()
-  short_desc = Field()
+  summary = Field()
   description = Field()
   inventory = Field()
-  features = Field()
   image_urls = Field()
   images = Field() # leave empty, will be auto-populated

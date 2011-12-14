@@ -15,9 +15,8 @@ USER_AGENT = '%s/%s' % (BOT_NAME, BOT_VERSION)
 
 ITEM_PIPELINES = [
   # 'scrapy.contrib.pipeline.images.ImagesPipeline',
-  'merch.pipelines.HTTPPipeline',
+  'merch.pipelines.HTTPPostPipeline',
   'merch.pipelines.InventoryPipeline'
-
 ]
 IMAGES_STORE = '/home/scott/Dropbox/Projects/Scrapy/merch'
 
