@@ -55,22 +55,6 @@ class InventoryPipeline(object):
         
     return item
     
-#~ class RabbitMQPipeline(object):
-  #~ def __init__(self):
-    #~ self.pc = PikaClient()
-  #~ 
-  #~ def process_item(self, item, spider):
-    #~ def message_wrapper(item):
-      #~ message = {
-          #~ "message_id": str(uuid.uuid4()),
-          #~ "timestamp": int(time.time()),
-          #~ "message_type": "Product",
-          #~ "body": dict(item)}
-      #~ return message
-    #~ 
-    #~ self.pc.publish(json.dumps(message_wrapper(item)))
-    #~ return item
-    
 class HTTPPipeline(object):
   def __init__(self):
     config = ConfigParser.ConfigParser()
