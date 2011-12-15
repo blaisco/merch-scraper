@@ -1,9 +1,8 @@
-import json
-import uuid
-import time
 import ConfigParser
-from httplib2 import Http
-from urllib import urlencode
+import json
+from urllib2 import Request, urlopen, URLError
+from urllib import urlencode, quote
+from scrapy import log
 
 # Define your item pipelines here
 #
@@ -55,17 +54,26 @@ class InventoryPipeline(object):
         
     return item
     
-class HTTPPostPipeline(object):
+class HTTPPostPipeline(object):  
   def __init__(self):
     config = ConfigParser.ConfigParser()
     config.read(CONFIG_FILE)
     self.key = config.get('api','key')
   
   def process_item(self, item, spider):
-    data = dict(item)
+    data = dict()
+    data["product"] = json.dumps(dict(item))
     data["key"] = self.key
     
-    h = Http()
-    resp, content = h.request(MERCH_PRODUCT_URL, "POST", urlencode(data))
-    # TODO: Yell loudly if resp["status"] != '200'
+    req = Request(MERCH_PRODUCT_URL, urlencode(data))
+    try:
+      response = urlopen(req)
+    except URLError, e:
+      if hasattr(e, 'reason'):
+        log.msg('Failed to reach the server. Reason: ' + e.reason, level=log.ERROR)
+      elif hasattr(e, 'code'):
+        log.msg('Server couldn\'t fulfill the request. Error code: ' + str(e.code), level=log.ERROR)
+    # else:
+      # All good. Rejoice!
+    
     return item

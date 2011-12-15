@@ -40,12 +40,12 @@ class ValvesoftwareSpider(BaseSpider):
     
     # Two divs within this div; join with a space
     product_name = hxs.select("//div[@id='product_header_box']//h3/text()").extract()
-    item['name'] = string.capwords(' '.join(product_name)).encode('utf-8')
+    item['name'] = string.capwords(' '.join(product_name))
     
     # Paragraph with text split by <br>'s
     description = hxs.select("//div[@id='product_info']/p/text()").extract()
-    item['summary'] = description[0].encode('utf-8')
-    item['description'] = ''.join(description).encode('utf-8')
+    item['summary'] = description[0]
+    item['description'] = ''.join(description)
     
     sale_price = None
     price = hxs.select("//div[@class='product_price']/text()").extract()
