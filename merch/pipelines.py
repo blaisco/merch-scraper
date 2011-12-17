@@ -1,5 +1,6 @@
 import ConfigParser
 import json
+from decimal import *
 from urllib2 import Request, urlopen, URLError
 from urllib import urlencode, quote
 from scrapy import log
@@ -22,7 +23,7 @@ class InventoryPipeline(object):
     # Convert price from $13.78 to 1378
     def price_str_to_int(price):
       price = price.replace('$','')
-      price = float(price)
+      price = Decimal(price)
       price = int(price * 100)
       return price
       
