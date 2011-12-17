@@ -22,9 +22,9 @@ class InventoryPipeline(object):
     
     # Convert price from $13.78 to 1378
     def price_str_to_int(price):
-      price = price.replace('$','')
+      price = str(price).replace('$','')
       price = Decimal(price)
-      price = int(price * 100)
+      price = str(int(price * 100))
       return price
       
     sizes = {

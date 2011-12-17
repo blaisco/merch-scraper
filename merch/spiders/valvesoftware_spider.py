@@ -66,6 +66,7 @@ class ValvesoftwareSpider(BaseSpider):
           "size": size, 
           "price": price, 
           "sale_price": sale_price, 
+          "currency": "USD",
           "in_stock": True
         })
     else:
@@ -74,6 +75,7 @@ class ValvesoftwareSpider(BaseSpider):
         "size": None, 
         "price": price, 
         "sale_price": sale_price, 
+        "currency": "USD",
         "in_stock": True
       })
       

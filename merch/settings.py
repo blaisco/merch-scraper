@@ -14,9 +14,9 @@ NEWSPIDER_MODULE = 'merch.spiders'
 USER_AGENT = '%s/%s' % (BOT_NAME, BOT_VERSION)
 
 ITEM_PIPELINES = [
-  # 'scrapy.contrib.pipeline.images.ImagesPipeline',
-  'merch.pipelines.HTTPPostPipeline',
-  'merch.pipelines.InventoryPipeline'
+  'scrapy.contrib.pipeline.images.ImagesPipeline',
+  'merch.pipelines.InventoryPipeline',
+  'merch.pipelines.HTTPPostPipeline'
 ]
 IMAGES_STORE = '/home/scott/Dropbox/Projects/Scrapy/merch'
 
