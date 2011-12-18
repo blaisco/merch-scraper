@@ -24,7 +24,7 @@ class InventoryPipeline(object):
     def price_str_to_int(price):
       price = str(price).replace('$','')
       price = Decimal(price)
-      price = str(int(price * 100))
+      price = int(price * 100)
       return price
       
     sizes = {
@@ -46,10 +46,14 @@ class InventoryPipeline(object):
     
     if item['inventory']:
       for inv in item['inventory']:
-        if inv['price']:
-          inv['price'] = price_str_to_int(inv['price'])
         if inv['sale_price']:
-          inv['sale_price'] = price_str_to_int(inv['sale_price'])
+          reg_price = price_str_to_int(inv['price'])
+          sale_price = price_str_to_int(inv['sale_price'])
+          inv['price'] = sale_price
+          inv['amount_saved'] = reg_price - sale_price
+          del inv['sale_price']
+        elif inv['price']:
+          inv['price'] = price_str_to_int(inv['price'])
         if inv['size']:
           inv['size'] = sizes[inv['size']]
         
