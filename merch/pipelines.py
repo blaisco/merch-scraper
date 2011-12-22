@@ -54,6 +54,7 @@ class InventoryPipeline(object):
           del inv['sale_price']
         elif inv['price']:
           inv['price'] = price_str_to_int(inv['price'])
+          inv['amount_saved'] = 0
         if inv['size']:
           inv['size'] = sizes[inv['size']]
         

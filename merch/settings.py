@@ -18,6 +18,7 @@ ITEM_PIPELINES = [
   'merch.pipelines.InventoryPipeline',
   'merch.pipelines.HTTPPostPipeline'
 ]
-IMAGES_STORE = '/home/scott/Dropbox/Projects/Scrapy/merch'
+
+IMAGES_STORE = '/tmp/scrapy/images/'
 
 DOWNLOAD_DELAY = 2 # seconds
