@@ -22,3 +22,5 @@ ITEM_PIPELINES = [
 IMAGES_STORE = '/tmp/scrapy/images/'
 
 DOWNLOAD_DELAY = 2 # seconds
+
+# CLOSESPIDER_ITEMCOUNT = 5

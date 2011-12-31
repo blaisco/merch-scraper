@@ -8,13 +8,13 @@ import string
 
 # scrapy crawl store.valvesoftware.com
 
-class ValvesoftwareSpider(BaseSpider):
-  # class ValvesoftwareSpider(CrawlSpider):
+# class ValvesoftwareSpider(BaseSpider):
+class ValvesoftwareSpider(CrawlSpider):
   name = "store.valvesoftware.com"
   base_url = "http://store.valvesoftware.com/"
   allowed_domains = ["valvesoftware.com"]
-  #start_urls = ["http://store.valvesoftware.com/"]
-  start_urls = ["http://store.valvesoftware.com/product.php?i=P0909"]
+  start_urls = ["http://store.valvesoftware.com/"]
+  #start_urls = ["http://store.valvesoftware.com/product.php?i=P0909"]
   rules = (
     # Extract links matching 'index.php' and follow links from them 
     # (since no callback means follow=True by default).
@@ -24,19 +24,16 @@ class ValvesoftwareSpider(BaseSpider):
     Rule(SgmlLinkExtractor(allow=('product\.php', )), callback='parse_item'),
   )
 
-  # def parse_item(self, response):
-  def parse(self, response):
-    self.log('We\'re parsing: %s' % response.url)
+  # def parse(self, response):
+  def parse_item(self, response):
     # self.log(response.body)
 
     hxs = HtmlXPathSelector(response)
     item = MerchItem()
     
-    item['url'] = response.url
+    item['merchant_url'] = self.base_url
     
-    # Using .encode('utf-8') on certain fields because the text may contain 
-    # non-ascii characters which throws a UnicodeEncodeError exception when 
-    # calling urlencode.
+    item['url'] = response.url
     
     # Two divs within this div; join with a space
     product_name = hxs.select("//div[@id='product_header_box']//h3/text()").extract()
@@ -44,7 +41,6 @@ class ValvesoftwareSpider(BaseSpider):
     
     # Paragraph with text split by <br>'s
     description = hxs.select("//div[@id='product_info']/p/text()").extract()
-    item['summary'] = description[0]
     item['description'] = ''.join(description)
     
     sale_price = None
@@ -55,7 +51,6 @@ class ValvesoftwareSpider(BaseSpider):
       price = hxs.select("//div[@class='product_old_price']/text()").extract()[0]
       sale_price = hxs.select("//div[@class='product_sale_price']/text()").extract()[0]
     
-    # price = price[1].replace('$','')
     sizes = hxs.select("//div[@id='size']/select/option/text()").extract()
     
     item['inventory'] = []

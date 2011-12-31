@@ -6,9 +6,9 @@
 from scrapy.item import Item, Field
 
 class MerchItem(Item):
+  merchant_url = Field()
   url = Field()
   name = Field()
-  summary = Field()
   description = Field()
   inventory = Field()
   image_urls = Field()
